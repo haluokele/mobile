@@ -42,8 +42,11 @@ class ViewController: UIViewController {
     
         override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "main2SetTask"{
-            var viewController = segue.destination as! SetTaskViewController
-            viewController.userid = self.userid
+            // Because in the SetTaskViewController, it uses a Navigation Controller
+            // the follwing codes are look like this
+            let navigationController = segue.destination as! UINavigationController
+            let setTaskViewController = navigationController.topViewController as! SetTaskViewController
+            setTaskViewController.userid = self.userid
         }
         if segue.identifier == "main2Contact"{
             var viewController = segue.destination as! ContactViewController

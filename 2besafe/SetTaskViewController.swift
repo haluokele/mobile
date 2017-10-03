@@ -9,51 +9,19 @@
 import UIKit
 import MapKit
 
-class SetTaskViewController: UIViewController,UISearchBarDelegate,MKMapViewDelegate, CLLocationManagerDelegate {
+class SetTaskViewController: UIViewController,UISearchBarDelegate,MKMapViewDelegate, CLLocationManagerDelegate,UIPickerViewDelegate, UIPickerViewDataSource{
     var userid = String()
 
+    //********** Navigation Part ************
     @IBOutlet var mapSearchBar: UISearchBar!
     
     @IBOutlet weak var mapkitView: MKMapView!
     
+    var sourceLocation = CLLocationCoordinate2D()
     var destLatitude = CLLocationDegrees()
     var destLongitude = CLLocationDegrees()
     
     let locationManager = CLLocationManager()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        mapSearchBar.delegate = self
-        
-        mapkitView.delegate = self
-        mapkitView.showsScale = true
-        mapkitView.showsPointsOfInterest = true
-        mapkitView.showsUserLocation = true
-        
-        locationManager.requestAlwaysAuthorization()
-        locationManager.requestWhenInUseAuthorization()
-        
-        if CLLocationManager.locationServicesEnabled(){
-            locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyBest
-            locationManager.startUpdatingLocation()
-            
-            let span:MKCoordinateSpan = MKCoordinateSpanMake(0.01, 0.01)
-            
-            let region:MKCoordinateRegion = MKCoordinateRegionMake((self.locationManager.location?.coordinate)!, span)
-            
-            mapkitView.setRegion(region, animated: true)
-        }
-        
-        
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         print("search bar clicked", mapSearchBar.text!)
@@ -88,10 +56,10 @@ class SetTaskViewController: UIViewController,UISearchBarDelegate,MKMapViewDeleg
                 
                 
                 // direction
-                let sourceLocation = self.locationManager.location?.coordinate
+                self.sourceLocation = (self.locationManager.location?.coordinate)!
                 let destLocation = CLLocationCoordinate2DMake(self.destLatitude, self.destLongitude)
                 
-                let sourcePlacemark = MKPlacemark(coordinate: sourceLocation!)
+                let sourcePlacemark = MKPlacemark(coordinate: self.sourceLocation)
                 let destPlacemark = MKPlacemark(coordinate: destLocation)
                 
                 let sourceItem = MKMapItem(placemark: sourcePlacemark)
@@ -122,6 +90,10 @@ class SetTaskViewController: UIViewController,UISearchBarDelegate,MKMapViewDeleg
                         
                         
                         // Zoom in based on the route rect
+//                        let centerLatitude = CLLocationDegrees((sourceLocation?.latitude)! + self.destLatitude)/2)
+//                        let centerLongitude = CLLocationDegrees(((sourceLocation?.longitude)! + self.destLongitude)/2)
+//                        let centerCoordinate = CLLocationCoordinate2DMake(centerLatitude, centerLongitude)
+//                        let zoomSpan = MKCoordinateSpanMake(<#T##latitudeDelta: CLLocationDegrees##CLLocationDegrees#>, <#T##longitudeDelta: CLLocationDegrees##CLLocationDegrees#>)
                         let rect = route?.polyline.boundingMapRect
                         self.mapkitView.setRegion(MKCoordinateRegionForMapRect(rect!), animated: true)
                         
@@ -158,15 +130,132 @@ class SetTaskViewController: UIViewController,UISearchBarDelegate,MKMapViewDeleg
         self.dismiss(animated: true, completion: nil)
     }
     
+    // ********* Set Time Part **************
+    @IBOutlet weak var minutePicker: UIPickerView!
+    let minutes = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"]
     
-    /*
+    var minuteChoice = 0
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        
+        return minutes[row]
+        
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+   
+        return minutes.count
+       
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        minuteChoice = row+1
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+//    print(minuteChoice)
+    
+    // ********* Submit to Server Part ******************
+    // Submit data to server
+    // including start time(current time), end time(current time+choosen time)
+    //           start place, end place
+    //           user ID
+    // Time all in UTC format
+    // Places all use coordinate(latitude & longitude)
+    
+    @IBAction func clickStartButton(_ sender: UIButton) {
+//        // 10 digits UTC timestamp
+//        let currentUTC = Int(NSDate().timeIntervalSince1970)
+//        let dateAfterMin = NSDate.init(timeIntervalSinceNow: (Double(minuteChoice) * 60.0))
+//        let endUTC = Int(dateAfterMin.timeIntervalSince1970)
+//
+//        // start point
+//        let sourceLatitude = self.sourceLocation.latitude
+//        let sourceLongitude = self.sourceLocation.longitude
+//        
+//        // Generate request
+//        var strURL = "http://13.73.118.226/API/operations.php?func=login"
+//        let parameters = ("&para1="+usernameTextField.text!+"&para2="+passwordTextField.text!)
+//        strURL = strURL + parameters
+//        print(strURL)
+//
+//        var request = URLRequest(url: URL(string: strURL)!)
+//        request.httpMethod = "POST"
+//        
+//        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+//            
+//            guard let data = data, error == nil else {                                                 // check for fundamental networking error
+//                print("error=\(error)")
+//                return
+//            }
+//
+//            if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
+//                print("statusCode should be 200, but is \(httpStatus.statusCode)")
+//                print("response = \(response)")
+//            }
+//            
+//            var responseString = String(data: data, encoding: .utf8)!
+//            print("responseString = "+responseString)
+//
+//            
+//        }
+//        task.resume()
+        
+        performSegue(withIdentifier: "setTask2Timer", sender: self.userid)
+
+    }
+    
+    
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        mapSearchBar.delegate = self
+        
+        mapkitView.delegate = self
+        mapkitView.showsScale = true
+        mapkitView.showsPointsOfInterest = true
+        mapkitView.showsUserLocation = true
+        
+        locationManager.requestAlwaysAuthorization()
+        locationManager.requestWhenInUseAuthorization()
+        
+        if CLLocationManager.locationServicesEnabled(){
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager.startUpdatingLocation()
+            
+            let span:MKCoordinateSpan = MKCoordinateSpanMake(0.01, 0.01)
+            
+            let region:MKCoordinateRegion = MKCoordinateRegionMake((self.locationManager.location?.coordinate)!, span)
+            
+            mapkitView.setRegion(region, animated: true)
+        }
+        
+        minutePicker.dataSource = self
+        minutePicker.delegate = self
+        
+        
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "setTask2Timer"{
+            var viewController = segue.destination as! TimerViewController
+            viewController.userid = self.userid
+        }
     }
-    */
+    
 
 }

@@ -9,6 +9,7 @@
 import UIKit
 
 class TimerViewController: UIViewController {
+    var userid = String()
 
     override func viewDidLoad() {
         super.viewDidLoad()
