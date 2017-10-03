@@ -7,14 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		24CAEFC31F82893C0039B338 /* TimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24CAEFC21F82893C0039B338 /* TimerViewController.swift */; };
+		24CAEFC51F82895D0039B338 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24CAEFC41F82895D0039B338 /* RegisterViewController.swift */; };
+		24CAEFC71F8289D90039B338 /* ContactViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24CAEFC61F8289D90039B338 /* ContactViewController.swift */; };
+		24CAEFC91F8299410039B338 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24CAEFC81F8299410039B338 /* LoginViewController.swift */; };
 		24D0F0691F80A746008AFAD4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D0F0681F80A746008AFAD4 /* AppDelegate.swift */; };
 		24D0F06B1F80A746008AFAD4 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D0F06A1F80A746008AFAD4 /* ViewController.swift */; };
 		24D0F06E1F80A746008AFAD4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 24D0F06C1F80A746008AFAD4 /* Main.storyboard */; };
 		24D0F0701F80A746008AFAD4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 24D0F06F1F80A746008AFAD4 /* Assets.xcassets */; };
 		24D0F0731F80A746008AFAD4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 24D0F0711F80A746008AFAD4 /* LaunchScreen.storyboard */; };
+		24D0F07B1F80AE5B008AFAD4 /* SetTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24D0F07A1F80AE5B008AFAD4 /* SetTaskViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		24CAEFBE1F826D610039B338 /* bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.png; sourceTree = "<group>"; };
+		24CAEFBF1F8282110039B338 /* taskIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = taskIcon.png; sourceTree = "<group>"; };
+		24CAEFC01F8284190039B338 /* contactIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = contactIcon.png; sourceTree = "<group>"; };
+		24CAEFC11F8286340039B338 /* emergencycallIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = emergencycallIcon.png; sourceTree = "<group>"; };
+		24CAEFC21F82893C0039B338 /* TimerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerViewController.swift; sourceTree = "<group>"; };
+		24CAEFC41F82895D0039B338 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		24CAEFC61F8289D90039B338 /* ContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactViewController.swift; sourceTree = "<group>"; };
+		24CAEFC81F8299410039B338 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		24D0F0651F80A746008AFAD4 /* 2besafe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 2besafe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		24D0F0681F80A746008AFAD4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		24D0F06A1F80A746008AFAD4 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -22,6 +35,7 @@
 		24D0F06F1F80A746008AFAD4 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		24D0F0721F80A746008AFAD4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		24D0F0741F80A746008AFAD4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		24D0F07A1F80AE5B008AFAD4 /* SetTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTaskViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,9 +69,18 @@
 			isa = PBXGroup;
 			children = (
 				24D0F0681F80A746008AFAD4 /* AppDelegate.swift */,
+				24CAEFC81F8299410039B338 /* LoginViewController.swift */,
 				24D0F06A1F80A746008AFAD4 /* ViewController.swift */,
+				24CAEFC61F8289D90039B338 /* ContactViewController.swift */,
 				24D0F06C1F80A746008AFAD4 /* Main.storyboard */,
+				24CAEFC21F82893C0039B338 /* TimerViewController.swift */,
+				24CAEFC41F82895D0039B338 /* RegisterViewController.swift */,
+				24D0F07A1F80AE5B008AFAD4 /* SetTaskViewController.swift */,
 				24D0F06F1F80A746008AFAD4 /* Assets.xcassets */,
+				24CAEFC11F8286340039B338 /* emergencycallIcon.png */,
+				24CAEFC01F8284190039B338 /* contactIcon.png */,
+				24CAEFBF1F8282110039B338 /* taskIcon.png */,
+				24CAEFBE1F826D610039B338 /* bg.png */,
 				24D0F0711F80A746008AFAD4 /* LaunchScreen.storyboard */,
 				24D0F0741F80A746008AFAD4 /* Info.plist */,
 			);
@@ -136,8 +159,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				24CAEFC91F8299410039B338 /* LoginViewController.swift in Sources */,
+				24CAEFC31F82893C0039B338 /* TimerViewController.swift in Sources */,
+				24CAEFC71F8289D90039B338 /* ContactViewController.swift in Sources */,
 				24D0F06B1F80A746008AFAD4 /* ViewController.swift in Sources */,
+				24CAEFC51F82895D0039B338 /* RegisterViewController.swift in Sources */,
 				24D0F0691F80A746008AFAD4 /* AppDelegate.swift in Sources */,
+				24D0F07B1F80AE5B008AFAD4 /* SetTaskViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
