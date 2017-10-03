@@ -36,6 +36,7 @@
 		24D0F0721F80A746008AFAD4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		24D0F0741F80A746008AFAD4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		24D0F07A1F80AE5B008AFAD4 /* SetTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetTaskViewController.swift; sourceTree = "<group>"; };
+		24E9060B1F83E13C00CBC51C /* WatchImages */ = {isa = PBXFileReference; lastKnownFileType = folder; path = WatchImages; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +78,7 @@
 				24CAEFC41F82895D0039B338 /* RegisterViewController.swift */,
 				24D0F07A1F80AE5B008AFAD4 /* SetTaskViewController.swift */,
 				24D0F06F1F80A746008AFAD4 /* Assets.xcassets */,
+				24E9060B1F83E13C00CBC51C /* WatchImages */,
 				24CAEFC11F8286340039B338 /* emergencycallIcon.png */,
 				24CAEFC01F8284190039B338 /* contactIcon.png */,
 				24CAEFBF1F8282110039B338 /* taskIcon.png */,

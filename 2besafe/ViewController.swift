@@ -31,7 +31,7 @@ class ViewController: UIViewController {
     @IBAction func clickSetTaskButton(_ sender: UIButton) {
         print("User ID = "+self.userid)
         if (self.userid != ""){
-            self.performSegue(withIdentifier: "main2SetTask", sender: self.userid)
+            self.performSegue(withIdentifier: "main2SetTask", sender: self)
         }
         else{
             self.lostUseridAlert()

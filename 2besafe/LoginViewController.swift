@@ -85,7 +85,7 @@ class LoginViewController: UIViewController {
                         print(responseString)
                         self.userid = responseString
                         print(self.userid)
-                        self.performSegue(withIdentifier: "login2Main", sender: self.userid)
+                        self.performSegue(withIdentifier: "login2Main", sender: self)
 
                     }
                     else{

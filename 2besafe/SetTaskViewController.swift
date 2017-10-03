@@ -203,7 +203,7 @@ class SetTaskViewController: UIViewController,UISearchBarDelegate,MKMapViewDeleg
 //        }
 //        task.resume()
         
-        performSegue(withIdentifier: "setTask2Timer", sender: self.userid)
+        performSegue(withIdentifier: "setTask2Timer", sender: self)
 
     }
     
@@ -254,6 +254,7 @@ class SetTaskViewController: UIViewController,UISearchBarDelegate,MKMapViewDeleg
         if segue.identifier == "setTask2Timer"{
             var viewController = segue.destination as! TimerViewController
             viewController.userid = self.userid
+            viewController.minuteChoice = self.minuteChoice
         }
     }
     
