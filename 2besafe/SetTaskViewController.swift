@@ -12,7 +12,10 @@ import MapKit
 class SetTaskViewController: UIViewController,UISearchBarDelegate,MKMapViewDelegate, CLLocationManagerDelegate,UIPickerViewDelegate, UIPickerViewDataSource{
     var userid = String()
 
+    //***************************************
     //********** Navigation Part ************
+    //***************************************
+    
     @IBOutlet var mapSearchBar: UISearchBar!
     
     @IBOutlet weak var mapkitView: MKMapView!
@@ -129,10 +132,11 @@ class SetTaskViewController: UIViewController,UISearchBarDelegate,MKMapViewDeleg
     @IBAction func clickBackButton(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
-    
+    // **************************************
     // ********* Set Time Part **************
+    // **************************************
     @IBOutlet weak var minutePicker: UIPickerView!
-    let minutes = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16"]
+    let minutes = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59"]
     
     var minuteChoice = 0
     
@@ -156,58 +160,65 @@ class SetTaskViewController: UIViewController,UISearchBarDelegate,MKMapViewDeleg
         return 1
     }
 //    print(minuteChoice)
-    
-    // ********* Submit to Server Part ******************
+    // ************************************************
+    // ********** Submit to Server Part ****************
     // Submit data to server
     // including start time(current time), end time(current time+choosen time)
     //           start place, end place
     //           user ID
     // Time all in UTC format
     // Places all use coordinate(latitude & longitude)
-    
+    // ***********************************************
     @IBAction func clickStartButton(_ sender: UIButton) {
 //        // 10 digits UTC timestamp
-//        let currentUTC = Int(NSDate().timeIntervalSince1970)
+//        let startUTC = Int(NSDate().timeIntervalSince1970)
 //        let dateAfterMin = NSDate.init(timeIntervalSinceNow: (Double(minuteChoice) * 60.0))
 //        let endUTC = Int(dateAfterMin.timeIntervalSince1970)
 //
 //        // start point
 //        let sourceLatitude = self.sourceLocation.latitude
 //        let sourceLongitude = self.sourceLocation.longitude
-//        
-//        // Generate request
-//        var strURL = "http://13.73.118.226/API/operations.php?func=login"
-//        let parameters = ("&para1="+usernameTextField.text!+"&para2="+passwordTextField.text!)
-//        strURL = strURL + parameters
-//        print(strURL)
 //
-//        var request = URLRequest(url: URL(string: strURL)!)
-//        request.httpMethod = "POST"
-//        
-//        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-//            
-//            guard let data = data, error == nil else {                                                 // check for fundamental networking error
-//                print("error=\(error)")
-//                return
-//            }
 //
-//            if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
-//                print("statusCode should be 200, but is \(httpStatus.statusCode)")
-//                print("response = \(response)")
-//            }
-//            
-//            var responseString = String(data: data, encoding: .utf8)!
-//            print("responseString = "+responseString)
-//
-//            
-//        }
-//        task.resume()
+        // Generate request
+        //        http://13.73.118.226/API/operations.php?func=newTask&para1=1111111111&para2=1111111111&para3=00.000000&para4=00.000000&para5=00.000000&para6=00.000000&para7=00.000000&para8=00.000000&para9=1111111111&para10=00055
+        //        var strURL = "http://13.73.118.226/API/operations.php?func=newTask"
+        //        let parameters = ("&para1="+startUTC+"&para2="+endUTC+"&para3="+sourceLatitude+"&para4="+sourceLongitude+"&para5="+self.destLatitude+"&para6="+self.destLongitude+"&para7="+)
+        //        strURL = strURL + parameters
+        //        print(strURL)
+        //
+        //        var request = URLRequest(url: URL(string: strURL)!)
+        //        request.httpMethod = "POST"
+        //
+        //        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        //
+        //            guard let data = data, error == nil else {                                                 // check for fundamental networking error
+        //                print("error=\(error)")
+        //                return
+        //            }
+        //
+        //            if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
+        //                print("statusCode should be 200, but is \(httpStatus.statusCode)")
+        //                print("response = \(response)")
+        //            }
+        //
+        //            var responseString = String(data: data, encoding: .utf8)!
+        //            print("responseString = "+responseString)
+        //
+        //
+        //        }
+        //        task.resume()
         
         performSegue(withIdentifier: "setTask2Timer", sender: self)
-
+   
     }
     
-    
+    func showChooseTimeAlert(){
+        let alertControl = UIAlertController(title: "Can't set task!", message: "Please choose an arrival time", preferredStyle: UIAlertControllerStyle.alert)
+        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
+        alertControl.addAction(okAction)
+        self.present(alertControl, animated: true, completion: nil)
+    }
     
     
     override func viewDidLoad() {
