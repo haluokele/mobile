@@ -44,27 +44,33 @@ class ViewController: UIViewController {
     }
     
     @IBAction func clickSetTaskButton(_ sender: UIButton) {
-        print("User ID = "+self.userid)
-        if (self.userid != ""){
-            self.performSegue(withIdentifier: "main2SetTask", sender: self)
-        }
-        else{
-            self.lostUseridAlert()
-            // GO BACK TO LOGIN AGAIN????
-        }
+        let str = userid
+        self.performSegue(withIdentifier: "main2SetTask", sender: str)
     }
 
     @IBAction func clickContactButton(_ sender: UIButton) {
-        if (self.userid != ""){
-            self.performSegue(withIdentifier: "main2Contact", sender: self)
-        }
-        else{
-            self.lostUseridAlert()
-            // GO BACK TO LOGIN AGAIN????
+        let str = userid
+        self.performSegue(withIdentifier: "main2Contact", sender: str)
+    }
+    
+    @IBAction func CallPolice(_ sender: Any) {
+        let urlString = "tel://0410916158"
+        
+        if let url = URL(string: urlString) {
+            if #available(iOS 10, *) {
+                UIApplication.shared.open(url, options: [:],
+                                          completionHandler: {
+                                            (success) in
+                })
+            } else {
+                UIApplication.shared.openURL(url)
+            }
         }
     }
     
-
+    @IBAction func clickBrowserButton(_ sender: UIButton) {
+        UIApplication.shared.openURL(NSURL(string: "https://www.crimestatistics.vic.gov.au/")! as URL)
+    }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Go to set task page
         if segue.identifier == "main2SetTask"{
@@ -77,7 +83,7 @@ class ViewController: UIViewController {
             
         // Go to update contact page
         if segue.identifier == "main2Contact"{
-            var viewController = segue.destination as! ContactViewController
+            let viewController = segue.destination as! ContactViewController
             viewController.userid = self.userid
         }
     }

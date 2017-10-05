@@ -91,15 +91,6 @@ class SetTaskViewController: UIViewController,UISearchBarDelegate,MKMapViewDeleg
                         let route = response?.routes[0]
                         self.mapkitView.add((route?.polyline)!, level:.aboveRoads)
                         
-                        
-                        // Zoom in based on the route rect
-//                        let centerLatitude = CLLocationDegrees((sourceLocation?.latitude)! + self.destLatitude)/2)
-//                        let centerLongitude = CLLocationDegrees(((sourceLocation?.longitude)! + self.destLongitude)/2)
-//                        let centerCoordinate = CLLocationCoordinate2DMake(centerLatitude, centerLongitude)
-//                        let zoomSpan = MKCoordinateSpanMake(<#T##latitudeDelta: CLLocationDegrees##CLLocationDegrees#>, <#T##longitudeDelta: CLLocationDegrees##CLLocationDegrees#>)
-                        let rect = route?.polyline.boundingMapRect
-                        self.mapkitView.setRegion(MKCoordinateRegionForMapRect(rect!), animated: true)
-                        
                         // Get arrival time
                         let time = route?.expectedTravelTime
                         let minutes = Int(time!/60)
@@ -111,6 +102,11 @@ class SetTaskViewController: UIViewController,UISearchBarDelegate,MKMapViewDeleg
                         annotation.title = showtime
                         self.mapkitView.addAnnotation(annotation)
                         self.mapkitView.selectAnnotation(annotation, animated: false)
+                        
+                        // Zoom in based on the annotations
+//                        let rect = route?.polyline.boundingMapRect
+//                        self.mapkitView.setRegion(MKCoordinateRegionForMapRect(rect!), animated: true)
+                        self.mapkitView.showAnnotations(self.mapkitView.annotations, animated: true)
                     }
                     
                 })
@@ -121,6 +117,7 @@ class SetTaskViewController: UIViewController,UISearchBarDelegate,MKMapViewDeleg
         
     }
     
+   
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let render = MKPolylineRenderer(overlay: overlay)
         render.strokeColor = UIColor.blue
@@ -136,7 +133,7 @@ class SetTaskViewController: UIViewController,UISearchBarDelegate,MKMapViewDeleg
     // ********* Set Time Part **************
     // **************************************
     @IBOutlet weak var minutePicker: UIPickerView!
-    let minutes = ["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59"]
+    let minutes = ["5","10","15","20","25","30","35","40","45","50","55","60"]
     
     var minuteChoice = 0
     
@@ -153,7 +150,7 @@ class SetTaskViewController: UIViewController,UISearchBarDelegate,MKMapViewDeleg
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        minuteChoice = row+1
+        minuteChoice = (row+1)*5
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -182,7 +179,7 @@ class SetTaskViewController: UIViewController,UISearchBarDelegate,MKMapViewDeleg
 
         // Generate request
         var strURL = "http://13.73.118.226/API/operations.php?func=newTask"
-        var parameters = "&para1=\(startUTC)&para2=\(endUTC)&para3=\(sourceLatitude)&para4=\(sourceLongitude)&para5=\(String(self.destLatitude))&para6=\(String(self.destLongitude))&para7=\(sourceLatitude)&para8=\(sourceLongitude)&para9=\(startUTC)&para10=\(self.userid)"
+        let parameters = "&para1=\(startUTC)&para2=\(endUTC)&para3=\(sourceLatitude)&para4=\(sourceLongitude)&para5=\(String(self.destLatitude))&para6=\(String(self.destLongitude))&para7=\(sourceLatitude)&para8=\(sourceLongitude)&para9=\(startUTC)&para10=\(self.userid)"
         strURL = strURL + parameters
         print(strURL)
 
@@ -192,16 +189,16 @@ class SetTaskViewController: UIViewController,UISearchBarDelegate,MKMapViewDeleg
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
 
             guard let data = data, error == nil else {                                                 // check for fundamental networking error
-                print("error=\(error)")
+                print("error=\(String(describing: error))")
                 return
             }
 
             if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
                 print("statusCode should be 200, but is \(httpStatus.statusCode)")
-                print("response = \(response)")
+                print("response = \(String(describing: response))")
             }
 
-            var responseString = String(data: data, encoding: .utf8)!
+            let responseString = String(data: data, encoding: .utf8)!
             print("responseString = "+responseString)
 
 
@@ -218,9 +215,15 @@ class SetTaskViewController: UIViewController,UISearchBarDelegate,MKMapViewDeleg
         self.present(alertControl, animated: true, completion: nil)
     }
     
-    
+    @IBOutlet weak var startButton: UIButton!
+    @IBOutlet weak var cancelButton: UIButton!
+    // Built-in functions
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        // set button as round corner
+        startButton.layer.cornerRadius = 5
+        cancelButton.layer.cornerRadius = 5
         
         mapSearchBar.delegate = self
         
@@ -255,13 +258,16 @@ class SetTaskViewController: UIViewController,UISearchBarDelegate,MKMapViewDeleg
         // Dispose of any resources that can be recreated.
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+       self.mapSearchBar.endEditing(true)
+    }
     
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "setTask2Timer"{
-            var viewController = segue.destination as! TimerViewController
+            let viewController = segue.destination as! TimerViewController
             viewController.userid = self.userid
             viewController.minuteChoice = self.minuteChoice
         }
