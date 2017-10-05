@@ -10,10 +10,18 @@ import UIKit
 
 class ViewController: UIViewController {
     var userid = String()
+    var call000Flag = Bool()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        print(call000Flag)
+        if call000Flag == true{
+            self.call000Alert()
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -22,7 +30,14 @@ class ViewController: UIViewController {
     }
     
     func lostUseridAlert() {
-        let alertControl = UIAlertController(title: "Alert", message: "User ID lost", preferredStyle: UIAlertControllerStyle.alert)
+        let alertControl = UIAlertController(title: "User ID lost", message: "Please login again", preferredStyle: UIAlertControllerStyle.alert)
+        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
+        alertControl.addAction(okAction)
+        self.present(alertControl, animated: true, completion: nil)
+    }
+    
+    func call000Alert(){
+        let alertControl = UIAlertController(title: "Didn't Cancel Task Alert", message: "You didn't cancel your last task. We have send notification to your friends.", preferredStyle: UIAlertControllerStyle.alert)
         let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
         alertControl.addAction(okAction)
         self.present(alertControl, animated: true, completion: nil)
@@ -49,7 +64,8 @@ class ViewController: UIViewController {
         }
     }
     
-        override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Go to set task page
         if segue.identifier == "main2SetTask"{
             // Because in the SetTaskViewController, it uses a Navigation Controller

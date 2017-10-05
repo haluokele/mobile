@@ -7,25 +7,31 @@
 //
 
 import UIKit
+import CoreLocation
 
-class TimerViewController: UIViewController {
+class TimerViewController: UIViewController,CLLocationManagerDelegate{
     var userid = String()
     var minuteChoice = Int()
+    var call000Flag = false
 
     @IBOutlet weak var secondDisplayLabel: UILabel!
     @IBOutlet weak var minuteDisplayLabel: UILabel!
     @IBOutlet weak var circleGif: UIImageView!
     
     var timerDial = Timer()
-    
     var timerSecondDisplay = Timer()
-    
     var secondTime = Int.max
-    
     var triggerTime = Int.max
+    
+    let locationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        if CLLocationManager.locationServicesEnabled(){
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager.startUpdatingLocation()
+        }
 
         NSLog("chosen time:"+String(minuteChoice))
         
@@ -92,6 +98,7 @@ class TimerViewController: UIViewController {
 //        }
         timerDial.invalidate()
         
+        self.call000Flag = true
         // Jump back to main page
         self.performSegue(withIdentifier: "timer2Main", sender: self)
     }
@@ -131,14 +138,44 @@ class TimerViewController: UIViewController {
             self.circleGif.stopAnimating()
         }
         
-        // Pop up a stop task alert
-        if secondTime == 30 {
+        // Pop up a stop task alert before 30 seconds of arrival
+        if secondTime == 120 {
             self.showStopTaskAlert()
         }
         
+        
+        if secondTime%30 == 0{
+            let currentUTC = String(Int(NSDate().timeIntervalSince1970))
+            var strURL = "http://13.73.118.226/API/operations.php?func=updateLocation"
+            var parameters = "&para1=\(String((self.locationManager.location?.coordinate.latitude)!))&para2=\(String((self.locationManager.location?.coordinate.longitude)!))&para3=\(currentUTC)&para4=\(self.userid)"
+            strURL = strURL + parameters
+            print(strURL)
+            
+            var request = URLRequest(url: URL(string: strURL)!)
+            request.httpMethod = "POST"
+            
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                
+                guard let data = data, error == nil else {                                                 // check for fundamental networking error
+                    print("error=\(error)")
+                    return
+                }
+                
+                if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
+                    print("statusCode should be 200, but is \(httpStatus.statusCode)")
+                    print("response = \(response)")
+                }
+                
+                var responseString = String(data: data, encoding: .utf8)!
+                print("responseString = "+responseString)
+                
+            }
+            task.resume()
+        }
     }
     
     @IBAction func clickStopButton(_ sender: UIButton) {
+        // Stop displaying timer
         self.timerSecondDisplay.invalidate()
         self.timerDial.invalidate()
         
@@ -148,6 +185,34 @@ class TimerViewController: UIViewController {
         self.circleGif.stopAnimating()
         
         // *****Generate Cancel Task Request*****
+//        http://13.73.118.226/API/operations.php?func=cancelTask&para1=UserID
+        var strURL = "http://13.73.118.226/API/operations.php?func=cancelTask"
+        var parameters = "&para1=\(self.userid)"
+        strURL = strURL + parameters
+        print(strURL)
+        
+        var request = URLRequest(url: URL(string: strURL)!)
+        request.httpMethod = "POST"
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            
+            guard let data = data, error == nil else {                                                 // check for fundamental networking error
+                print("error=\(error)")
+                return
+            }
+            
+            if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
+                print("statusCode should be 200, but is \(httpStatus.statusCode)")
+                print("response = \(response)")
+            }
+            
+            var responseString = String(data: data, encoding: .utf8)!
+            print("responseString = "+responseString)
+            
+            
+        }
+        task.resume()
+
         
         // Back to the Main View Controller
         self.performSegue(withIdentifier: "timer2Main", sender: self)
@@ -155,7 +220,7 @@ class TimerViewController: UIViewController {
     
     func showStopTaskAlert(){
         let alertControl = UIAlertController(title: "Do you want to stop the task?", message: "Please stop task if you have arrived", preferredStyle: UIAlertControllerStyle.alert)
-        let okAction = UIAlertAction(title: "Stop", style: UIAlertActionStyle.default, handler: { action in
+        let stopAction = UIAlertAction(title: "Stop", style: UIAlertActionStyle.default, handler: { action in
             self.timerSecondDisplay.invalidate()
             self.timerDial.invalidate()
             
@@ -165,13 +230,39 @@ class TimerViewController: UIViewController {
             self.circleGif.stopAnimating()
             
             // *****Generate Cancel Task Request*****
+            var strURL = "http://13.73.118.226/API/operations.php?func=cancelTask"
+            var parameters = "&para1=\(self.userid)"
+            strURL = strURL + parameters
+            print(strURL)
+            
+            var request = URLRequest(url: URL(string: strURL)!)
+            request.httpMethod = "POST"
+            
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                
+                guard let data = data, error == nil else {                                                 // check for fundamental networking error
+                    print("error=\(error)")
+                    return
+                }
+                
+                if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
+                    print("statusCode should be 200, but is \(httpStatus.statusCode)")
+                    print("response = \(response)")
+                }
+                
+                var responseString = String(data: data, encoding: .utf8)!
+                print("responseString = "+responseString)
+                
+            }
+            task.resume()
             
             // Back to the Main View Controller
             self.performSegue(withIdentifier: "timer2Main", sender: self)
         })
-        let cancelAction = UIAlertAction(title: "Continue", style: UIAlertActionStyle.default, handler: nil)
-        alertControl.addAction(okAction)
-        alertControl.addAction(cancelAction)
+        
+//        let continueAction = UIAlertAction(title: "Continue", style: UIAlertActionStyle.default, handler: nil)
+        alertControl.addAction(stopAction)
+//        alertControl.addAction(continueAction)
         self.present(alertControl, animated: true, completion: nil)
     }
 
@@ -179,6 +270,7 @@ class TimerViewController: UIViewController {
         if segue.identifier == "timer2Main" {
             var viewController = segue.destination as! ViewController
             viewController.userid = self.userid
+            viewController.call000Flag = self.call000Flag
         }
     }
 

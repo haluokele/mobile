@@ -159,7 +159,7 @@ class SetTaskViewController: UIViewController,UISearchBarDelegate,MKMapViewDeleg
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
-//    print(minuteChoice)
+
     // ************************************************
     // ********** Submit to Server Part ****************
     // Submit data to server
@@ -170,45 +170,43 @@ class SetTaskViewController: UIViewController,UISearchBarDelegate,MKMapViewDeleg
     // Places all use coordinate(latitude & longitude)
     // ***********************************************
     @IBAction func clickStartButton(_ sender: UIButton) {
-//        // 10 digits UTC timestamp
-//        let startUTC = Int(NSDate().timeIntervalSince1970)
-//        let dateAfterMin = NSDate.init(timeIntervalSinceNow: (Double(minuteChoice) * 60.0))
-//        let endUTC = Int(dateAfterMin.timeIntervalSince1970)
-//
-//        // start point
-//        let sourceLatitude = self.sourceLocation.latitude
-//        let sourceLongitude = self.sourceLocation.longitude
-//
-//
+        // 10 digits UTC timestamp
+        let startUTC = String(Int(NSDate().timeIntervalSince1970))
+        let dateAfterMin = NSDate.init(timeIntervalSinceNow: (Double(minuteChoice) * 60.0))
+        let endUTC = String(Int(dateAfterMin.timeIntervalSince1970))
+
+        // start point
+        let sourceLatitude = String(self.sourceLocation.latitude)
+        let sourceLongitude = String(self.sourceLocation.longitude)
+
+
         // Generate request
-        //        http://13.73.118.226/API/operations.php?func=newTask&para1=1111111111&para2=1111111111&para3=00.000000&para4=00.000000&para5=00.000000&para6=00.000000&para7=00.000000&para8=00.000000&para9=1111111111&para10=00055
-        //        var strURL = "http://13.73.118.226/API/operations.php?func=newTask"
-        //        let parameters = ("&para1="+startUTC+"&para2="+endUTC+"&para3="+sourceLatitude+"&para4="+sourceLongitude+"&para5="+self.destLatitude+"&para6="+self.destLongitude+"&para7="+)
-        //        strURL = strURL + parameters
-        //        print(strURL)
-        //
-        //        var request = URLRequest(url: URL(string: strURL)!)
-        //        request.httpMethod = "POST"
-        //
-        //        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-        //
-        //            guard let data = data, error == nil else {                                                 // check for fundamental networking error
-        //                print("error=\(error)")
-        //                return
-        //            }
-        //
-        //            if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
-        //                print("statusCode should be 200, but is \(httpStatus.statusCode)")
-        //                print("response = \(response)")
-        //            }
-        //
-        //            var responseString = String(data: data, encoding: .utf8)!
-        //            print("responseString = "+responseString)
-        //
-        //
-        //        }
-        //        task.resume()
-        
+        var strURL = "http://13.73.118.226/API/operations.php?func=newTask"
+        var parameters = "&para1=\(startUTC)&para2=\(endUTC)&para3=\(sourceLatitude)&para4=\(sourceLongitude)&para5=\(String(self.destLatitude))&para6=\(String(self.destLongitude))&para7=\(sourceLatitude)&para8=\(sourceLongitude)&para9=\(startUTC)&para10=\(self.userid)"
+        strURL = strURL + parameters
+        print(strURL)
+
+        var request = URLRequest(url: URL(string: strURL)!)
+        request.httpMethod = "POST"
+
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+
+            guard let data = data, error == nil else {                                                 // check for fundamental networking error
+                print("error=\(error)")
+                return
+            }
+
+            if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
+                print("statusCode should be 200, but is \(httpStatus.statusCode)")
+                print("response = \(response)")
+            }
+
+            var responseString = String(data: data, encoding: .utf8)!
+            print("responseString = "+responseString)
+
+
+        }
+        task.resume()
         performSegue(withIdentifier: "setTask2Timer", sender: self)
    
     }

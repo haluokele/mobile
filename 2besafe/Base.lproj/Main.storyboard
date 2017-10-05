@@ -345,7 +345,6 @@
         <image name="taskIcon" width="128" height="128"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="iTd-cA-5xM"/>
         <segue reference="D1E-Zx-59T"/>
     </inferredMetricsTieBreakers>
 </document>
