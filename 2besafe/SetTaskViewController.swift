@@ -9,51 +9,22 @@
 import UIKit
 import MapKit
 
-class SetTaskViewController: UIViewController,UISearchBarDelegate,MKMapViewDelegate, CLLocationManagerDelegate {
+class SetTaskViewController: UIViewController,UISearchBarDelegate,MKMapViewDelegate, CLLocationManagerDelegate,UIPickerViewDelegate, UIPickerViewDataSource{
     var userid = String()
 
+    //***************************************
+    //********** Navigation Part ************
+    //***************************************
+    
     @IBOutlet var mapSearchBar: UISearchBar!
     
     @IBOutlet weak var mapkitView: MKMapView!
     
+    var sourceLocation = CLLocationCoordinate2D()
     var destLatitude = CLLocationDegrees()
     var destLongitude = CLLocationDegrees()
     
     let locationManager = CLLocationManager()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        mapSearchBar.delegate = self
-        
-        mapkitView.delegate = self
-        mapkitView.showsScale = true
-        mapkitView.showsPointsOfInterest = true
-        mapkitView.showsUserLocation = true
-        
-        locationManager.requestAlwaysAuthorization()
-        locationManager.requestWhenInUseAuthorization()
-        
-        if CLLocationManager.locationServicesEnabled(){
-            locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyBest
-            locationManager.startUpdatingLocation()
-            
-            let span:MKCoordinateSpan = MKCoordinateSpanMake(0.01, 0.01)
-            
-            let region:MKCoordinateRegion = MKCoordinateRegionMake((self.locationManager.location?.coordinate)!, span)
-            
-            mapkitView.setRegion(region, animated: true)
-        }
-        
-        
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         print("search bar clicked", mapSearchBar.text!)
@@ -88,10 +59,10 @@ class SetTaskViewController: UIViewController,UISearchBarDelegate,MKMapViewDeleg
                 
                 
                 // direction
-                let sourceLocation = self.locationManager.location?.coordinate
+                self.sourceLocation = (self.locationManager.location?.coordinate)!
                 let destLocation = CLLocationCoordinate2DMake(self.destLatitude, self.destLongitude)
                 
-                let sourcePlacemark = MKPlacemark(coordinate: sourceLocation!)
+                let sourcePlacemark = MKPlacemark(coordinate: self.sourceLocation)
                 let destPlacemark = MKPlacemark(coordinate: destLocation)
                 
                 let sourceItem = MKMapItem(placemark: sourcePlacemark)
@@ -120,11 +91,6 @@ class SetTaskViewController: UIViewController,UISearchBarDelegate,MKMapViewDeleg
                         let route = response?.routes[0]
                         self.mapkitView.add((route?.polyline)!, level:.aboveRoads)
                         
-                        
-                        // Zoom in based on the route rect
-                        let rect = route?.polyline.boundingMapRect
-                        self.mapkitView.setRegion(MKCoordinateRegionForMapRect(rect!), animated: true)
-                        
                         // Get arrival time
                         let time = route?.expectedTravelTime
                         let minutes = Int(time!/60)
@@ -136,6 +102,11 @@ class SetTaskViewController: UIViewController,UISearchBarDelegate,MKMapViewDeleg
                         annotation.title = showtime
                         self.mapkitView.addAnnotation(annotation)
                         self.mapkitView.selectAnnotation(annotation, animated: false)
+                        
+                        // Zoom in based on the annotations
+//                        let rect = route?.polyline.boundingMapRect
+//                        self.mapkitView.setRegion(MKCoordinateRegionForMapRect(rect!), animated: true)
+                        self.mapkitView.showAnnotations(self.mapkitView.annotations, animated: true)
                     }
                     
                 })
@@ -146,6 +117,7 @@ class SetTaskViewController: UIViewController,UISearchBarDelegate,MKMapViewDeleg
         
     }
     
+   
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let render = MKPolylineRenderer(overlay: overlay)
         render.strokeColor = UIColor.blue
@@ -157,16 +129,149 @@ class SetTaskViewController: UIViewController,UISearchBarDelegate,MKMapViewDeleg
     @IBAction func clickBackButton(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
+    // **************************************
+    // ********* Set Time Part **************
+    // **************************************
+    @IBOutlet weak var minutePicker: UIPickerView!
+    let minutes = ["5","10","15","20","25","30","35","40","45","50","55","60"]
     
+    var minuteChoice = 0
     
-    /*
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        
+        return minutes[row]
+        
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+   
+        return minutes.count
+       
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        minuteChoice = (row+1)*5
+    }
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+
+    // ************************************************
+    // ********** Submit to Server Part ****************
+    // Submit data to server
+    // including start time(current time), end time(current time+choosen time)
+    //           start place, end place
+    //           user ID
+    // Time all in UTC format
+    // Places all use coordinate(latitude & longitude)
+    // ***********************************************
+    @IBAction func clickStartButton(_ sender: UIButton) {
+        // 10 digits UTC timestamp
+        let startUTC = String(Int(NSDate().timeIntervalSince1970))
+        let dateAfterMin = NSDate.init(timeIntervalSinceNow: (Double(minuteChoice) * 60.0))
+        let endUTC = String(Int(dateAfterMin.timeIntervalSince1970))
+
+        // start point
+        let sourceLatitude = String(self.sourceLocation.latitude)
+        let sourceLongitude = String(self.sourceLocation.longitude)
+
+
+        // Generate request
+        var strURL = "http://13.73.118.226/API/operations.php?func=newTask"
+        let parameters = "&para1=\(startUTC)&para2=\(endUTC)&para3=\(sourceLatitude)&para4=\(sourceLongitude)&para5=\(String(self.destLatitude))&para6=\(String(self.destLongitude))&para7=\(sourceLatitude)&para8=\(sourceLongitude)&para9=\(startUTC)&para10=\(self.userid)"
+        strURL = strURL + parameters
+        print(strURL)
+
+        var request = URLRequest(url: URL(string: strURL)!)
+        request.httpMethod = "POST"
+
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+
+            guard let data = data, error == nil else {                                                 // check for fundamental networking error
+                print("error=\(String(describing: error))")
+                return
+            }
+
+            if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
+                print("statusCode should be 200, but is \(httpStatus.statusCode)")
+                print("response = \(String(describing: response))")
+            }
+
+            let responseString = String(data: data, encoding: .utf8)!
+            print("responseString = "+responseString)
+
+
+        }
+        task.resume()
+        performSegue(withIdentifier: "setTask2Timer", sender: self)
+   
+    }
+    
+    func showChooseTimeAlert(){
+        let alertControl = UIAlertController(title: "Can't set task!", message: "Please choose an arrival time", preferredStyle: UIAlertControllerStyle.alert)
+        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
+        alertControl.addAction(okAction)
+        self.present(alertControl, animated: true, completion: nil)
+    }
+    
+    @IBOutlet weak var startButton: UIButton!
+    @IBOutlet weak var cancelButton: UIButton!
+    // Built-in functions
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        // set button as round corner
+        startButton.layer.cornerRadius = 5
+        cancelButton.layer.cornerRadius = 5
+        
+        mapSearchBar.delegate = self
+        
+        mapkitView.delegate = self
+        mapkitView.showsScale = true
+        mapkitView.showsPointsOfInterest = true
+        mapkitView.showsUserLocation = true
+        
+        locationManager.requestAlwaysAuthorization()
+        locationManager.requestWhenInUseAuthorization()
+        
+        if CLLocationManager.locationServicesEnabled(){
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager.startUpdatingLocation()
+            
+            let span:MKCoordinateSpan = MKCoordinateSpanMake(0.01, 0.01)
+            
+            let region:MKCoordinateRegion = MKCoordinateRegionMake((self.locationManager.location?.coordinate)!, span)
+            
+            mapkitView.setRegion(region, animated: true)
+        }
+        
+        minutePicker.dataSource = self
+        minutePicker.delegate = self
+        
+        
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+       self.mapSearchBar.endEditing(true)
+    }
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "setTask2Timer"{
+            let viewController = segue.destination as! TimerViewController
+            viewController.userid = self.userid
+            viewController.minuteChoice = self.minuteChoice
+        }
     }
-    */
+    
 
 }

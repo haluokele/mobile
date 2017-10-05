@@ -20,10 +20,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		24CAEFBE1F826D610039B338 /* bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.png; sourceTree = "<group>"; };
-		24CAEFBF1F8282110039B338 /* taskIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = taskIcon.png; sourceTree = "<group>"; };
-		24CAEFC01F8284190039B338 /* contactIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = contactIcon.png; sourceTree = "<group>"; };
-		24CAEFC11F8286340039B338 /* emergencycallIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = emergencycallIcon.png; sourceTree = "<group>"; };
+		248D86D91F861F3E007BEDFF /* bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg.png; sourceTree = "<group>"; };
+		24A8749C1F86271800513BB5 /* criminalIcon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = criminalIcon.jpg; sourceTree = "<group>"; };
+		24A8749D1F862BA600513BB5 /* logoutIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logoutIcon.png; sourceTree = "<group>"; };
+		24A8749E1F862C7B00513BB5 /* logoutIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logoutIcon.png; path = ../../logoutIcon.png; sourceTree = "<group>"; };
 		24CAEFC21F82893C0039B338 /* TimerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerViewController.swift; sourceTree = "<group>"; };
 		24CAEFC41F82895D0039B338 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		24CAEFC61F8289D90039B338 /* ContactViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactViewController.swift; sourceTree = "<group>"; };
@@ -77,10 +77,10 @@
 				24CAEFC41F82895D0039B338 /* RegisterViewController.swift */,
 				24D0F07A1F80AE5B008AFAD4 /* SetTaskViewController.swift */,
 				24D0F06F1F80A746008AFAD4 /* Assets.xcassets */,
-				24CAEFC11F8286340039B338 /* emergencycallIcon.png */,
-				24CAEFC01F8284190039B338 /* contactIcon.png */,
-				24CAEFBF1F8282110039B338 /* taskIcon.png */,
-				24CAEFBE1F826D610039B338 /* bg.png */,
+				24A8749D1F862BA600513BB5 /* logoutIcon.png */,
+				24A8749E1F862C7B00513BB5 /* logoutIcon.png */,
+				24A8749C1F86271800513BB5 /* criminalIcon.jpg */,
+				248D86D91F861F3E007BEDFF /* bg.png */,
 				24D0F0711F80A746008AFAD4 /* LaunchScreen.storyboard */,
 				24D0F0741F80A746008AFAD4 /* Info.plist */,
 			);
@@ -305,8 +305,9 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = EQTJL4RX46;
 				INFOPLIST_FILE = 2besafe/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "au.edu.unimelb.student.yaojiaw.-besafe";
+				PRODUCT_BUNDLE_IDENTIFIER = au.edu.unimelb.student.yaojiaw;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -320,8 +321,9 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = EQTJL4RX46;
 				INFOPLIST_FILE = 2besafe/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "au.edu.unimelb.student.yaojiaw.-besafe";
+				PRODUCT_BUNDLE_IDENTIFIER = au.edu.unimelb.student.yaojiaw;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

@@ -26,15 +26,17 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         
         // set login button style
-                loginButton.layer.cornerRadius = 5
-                loginButton.layer.borderWidth = 1
-                loginButton.layer.borderColor = UIColor.white.cgColor
+        loginButton.layer.cornerRadius = 5
         
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(false)
     }
     
     func showAllInfoAlert(){
@@ -51,60 +53,55 @@ class LoginViewController: UIViewController {
         self.present(alertControl, animated: true, completion: nil)
     }
     
-    @IBAction func clickLoginButton(_ sender: UIButton) {
-        // must input username & password
-        // else will pop up alert box
-        if (usernameTextField.text != "" && passwordTextField.text != ""){
-            var strURL = "http://13.73.118.226/API/operations.php?func=login"
-            let parameters = ("&para1="+usernameTextField.text!+"&para2="+passwordTextField.text!)
-            strURL = strURL + parameters
-            print(strURL)
-
-            var request = URLRequest(url: URL(string: strURL)!)
-            request.httpMethod = "POST"
-
-            let task = URLSession.shared.dataTask(with: request) { data, response, error in
-
-                guard let data = data, error == nil else {                                                 // check for fundamental networking error
-                    print("error=\(error)")
-                    return
-                }
-
-                if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
-                    print("statusCode should be 200, but is \(httpStatus.statusCode)")
-                    print("response = \(response)")
-                }
-
-                var responseString = String(data: data, encoding: .utf8)!
-                print("responseString = "+responseString)
-
-                // Use GCD to invoke the completion handler on the main thread
-                // update UI
-                DispatchQueue.main.async {
-                    if (responseString != "False" && responseString != ""){ // if login successfully
-                        print(responseString)
-                        self.userid = responseString
-                        print(self.userid)
-                        self.performSegue(withIdentifier: "login2Main", sender: self.userid)
-
-                    }
-                    else{
-                        self.showLoginFailAlert()
-                    }
-                }
-
+    @IBAction func LoginMain(_ sender: Any) {
+        let username = usernameTextField.text!
+        let password = passwordTextField.text!
+        
+        if(username.characters.count==0 || password.characters.count==0) {
+            showAllInfoAlert()
+            return
+        }
+        
+        var strURL = "http://13.73.118.226/API/operations.php?func=login"
+        let parameters = ("&para1="+username+"&para2="+password)
+        strURL = strURL + parameters
+        print(strURL)
+        
+        var request = URLRequest(url: URL(string: strURL)!)
+        request.httpMethod = "POST"
+        let postString = ""
+        request.httpBody = postString.data(using: .utf8)
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            guard let data = data, error == nil else {                                                 // check for fundamental networking error
+                print("error=\(String(describing: error))")
+                return
             }
-            task.resume()
-
+            
+            if let httpStatus = response as? HTTPURLResponse, httpStatus.statusCode != 200 {           // check for http errors
+                print("statusCode should be 200, but is \(httpStatus.statusCode)")
+                print("response = \(String(describing: response))")
+            }
+            
+            let responseString = String(data: data, encoding: .utf8)
+            print("responseString = \(String(describing: responseString))")
+            DispatchQueue.main.async {
+                if (responseString=="False"){
+                    self.showLoginFailAlert()
+                    return
+                }else {
+                    self.userid = responseString!
+                    let str = self.userid
+                    self.performSegue(withIdentifier: "login2Main", sender: str)
+                }
+            }
         }
-        else{
-            self.showAllInfoAlert()
-        }
+        task.resume()
     }
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "login2Main"{
-            var mainViewController = segue.destination as! ViewController
+            let mainViewController = segue.destination as! ViewController
             mainViewController.userid = self.userid
         }
     }
