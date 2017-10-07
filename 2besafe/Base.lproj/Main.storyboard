@@ -99,7 +99,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dzz-ni-0Mc">
-                                <rect key="frame" x="41" y="136" width="130" height="130"/>
+                                <rect key="frame" x="39" y="136" width="130" height="130"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <state key="normal" title="Set Task" image="taskIcon">
@@ -110,7 +110,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Dg-fm-Mua">
-                                <rect key="frame" x="213" y="136" width="130" height="130"/>
+                                <rect key="frame" x="211" y="136" width="130" height="130"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Contact" image="contactIcon"/>
                                 <connections>
@@ -128,7 +128,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vlj-1M-LhP">
-                                <rect key="frame" x="41" y="373" width="130" height="130"/>
+                                <rect key="frame" x="39" y="373" width="130" height="130"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="000" image="emergencycallIcon">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -138,36 +138,36 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="New task" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lkw-7s-hnU">
-                                <rect key="frame" x="63" y="274" width="93" height="32"/>
+                                <rect key="frame" x="61" y="274" width="93" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                 <color key="textColor" red="0.50556719299999997" green="0.62485945220000005" blue="0.78828537460000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="My contacts " textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AWg-LX-xl0">
-                                <rect key="frame" x="218" y="274" width="125" height="32"/>
+                                <rect key="frame" x="216" y="274" width="125" height="32"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                 <color key="textColor" red="0.50556719299999997" green="0.62485945220000005" blue="0.78828537460000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UP6-mC-v7e">
-                                <rect key="frame" x="213" y="371" width="130" height="130"/>
+                                <rect key="frame" x="211" y="371" width="130" height="130"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button" image="criminalIcon"/>
                                 <connections>
                                     <action selector="clickBrowserButton:" destination="JCE-pp-9lS" eventType="touchUpInside" id="tOJ-pe-Bzk"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Criminal Statics" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M3j-cr-mjb">
-                                <rect key="frame" x="201" y="510" width="151" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Call 000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z0M-yU-grZ">
+                                <rect key="frame" x="64" y="510" width="86" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                 <color key="textColor" red="0.50556719299999997" green="0.62485945220000005" blue="0.78828537460000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Call 000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z0M-yU-grZ">
-                                <rect key="frame" x="66" y="510" width="86" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Criminal Statics" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M3j-cr-mjb">
+                                <rect key="frame" x="186" y="510" width="180" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                 <color key="textColor" red="0.50556719299999997" green="0.62485945220000005" blue="0.78828537460000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -320,17 +320,12 @@
                                     <action selector="clickStopButton:" destination="IhR-P9-o3A" eventType="touchUpInside" id="1mG-Wv-Hq5"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xmY-bx-JGF">
-                                <rect key="frame" x="16" y="76" width="340" height="340"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <viewLayoutGuide key="safeArea" id="Ve2-vB-I6Q"/>
                     </view>
                     <connections>
                         <outlet property="circleGif" destination="jov-NI-rmJ" id="bvc-Xa-85K"/>
-                        <outlet property="circleGif0" destination="xmY-bx-JGF" id="Dg3-N6-ePN"/>
                         <outlet property="minuteDisplayLabel" destination="2hd-9a-TKN" id="sT2-Lt-RyM"/>
                         <outlet property="secondDisplayLabel" destination="7jq-A1-r0g" id="y7C-Rr-6K0"/>
                         <outlet property="stopButton" destination="jIm-5b-YiL" id="W4b-iV-lik"/>
@@ -655,7 +650,7 @@
         <image name="username" width="200" height="200"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="B1F-JD-Mqv"/>
-        <segue reference="7pV-fR-35W"/>
+        <segue reference="D1E-Zx-59T"/>
+        <segue reference="d6Z-dP-5Xz"/>
     </inferredMetricsTieBreakers>
 </document>

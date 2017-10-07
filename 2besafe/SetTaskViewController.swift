@@ -126,6 +126,7 @@ class SetTaskViewController: UIViewController,UISearchBarDelegate,MKMapViewDeleg
         return render
     }
     
+    // Back to previous page
     @IBAction func clickBackButton(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
@@ -208,6 +209,7 @@ class SetTaskViewController: UIViewController,UISearchBarDelegate,MKMapViewDeleg
    
     }
     
+    // Pop up when the user doesn't choose an arrival time
     func showChooseTimeAlert(){
         let alertControl = UIAlertController(title: "Can't set task!", message: "Please choose an arrival time", preferredStyle: UIAlertControllerStyle.alert)
         let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
@@ -262,9 +264,7 @@ class SetTaskViewController: UIViewController,UISearchBarDelegate,MKMapViewDeleg
        self.mapSearchBar.endEditing(true)
     }
     
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "setTask2Timer"{
             let viewController = segue.destination as! TimerViewController
