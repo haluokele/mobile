@@ -8,7 +8,10 @@
 
 import UIKit
 import CoreLocation
-
+// ---------------------------------
+// This view controller is for timer
+// Including timer display, task cancellation and call 000
+// ---------------------------------
 class TimerViewController: UIViewController,CLLocationManagerDelegate{
     var userid = String()
     var minuteChoice = Int()
@@ -26,10 +29,15 @@ class TimerViewController: UIViewController,CLLocationManagerDelegate{
     
     let locationManager = CLLocationManager()
     
+    // Start the timer at beginning of view loaded
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Set button style
         stopButton.layer.cornerRadius = 5
+        
+        locationManager.requestAlwaysAuthorization()
+        locationManager.requestWhenInUseAuthorization()
         
         if CLLocationManager.locationServicesEnabled(){
             locationManager.delegate = self
@@ -39,7 +47,7 @@ class TimerViewController: UIViewController,CLLocationManagerDelegate{
         
         
         NSLog("chosen time:"+String(minuteChoice))
-        
+        // Convert minutes to seconds
         secondTime = minuteChoice * 60
         
         NSLog("trigger time:"+String(secondTime))
@@ -47,7 +55,7 @@ class TimerViewController: UIViewController,CLLocationManagerDelegate{
         // Timer for call 000
         timerDial = Timer.scheduledTimer(timeInterval: TimeInterval(secondTime), target: self, selector: #selector(dial), userInfo: nil, repeats: false)
         
-        // Timer for label display
+        
         // For the timer label initial display
         if (secondTime/60/10>0 && secondTime%60/10>0){
             minuteDisplayLabel.text = String(secondTime/60)
@@ -71,6 +79,7 @@ class TimerViewController: UIViewController,CLLocationManagerDelegate{
         
         secondTime -= 1
         
+        // Timer for label display
         // Change the labels every second
         timerSecondDisplay = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(countdownDisplay), userInfo: nil, repeats: true)
         
@@ -97,7 +106,6 @@ class TimerViewController: UIViewController,CLLocationManagerDelegate{
     
 
     // Call 000
-    // Here use a mobile number rather than 000
     @objc func dial(){
         NSLog("call 000")
         
@@ -117,12 +125,17 @@ class TimerViewController: UIViewController,CLLocationManagerDelegate{
         timerDial.invalidate()
         
         // For the main page alert
+        // When equals true,
+        // main page notifies the user that him/her didn't cancel the last task
         self.call000Flag = true
         
         // Jump back to main page
         self.performSegue(withIdentifier: "timer2Main", sender: self)
     }
     
+    // Display timer label
+    // Pop up a stop task alert before 30 seconds of arrival
+    // Update current coordinate to server time every 30 seconds
     @objc func countdownDisplay() {
         if secondTime > 0{
             NSLog(String(secondTime/60)+","+String(secondTime%60))
@@ -194,6 +207,10 @@ class TimerViewController: UIViewController,CLLocationManagerDelegate{
         }
     }
     
+    // Click stop button
+    // Stop displaying timer
+    // Cancel task
+    // Back to main page
     @IBAction func clickStopButton(_ sender: UIButton) {
         // Stop displaying timer
         self.timerSecondDisplay.invalidate()
@@ -238,6 +255,8 @@ class TimerViewController: UIViewController,CLLocationManagerDelegate{
     }
     
     // Alert of stoping task before 2 minutes of the end time
+    // If the user click "stop"
+    // Cancel the task and back to main page
     func showStopTaskAlert(){
         let alertControl = UIAlertController(title: "Do you want to stop the task?", message: "Please stop task if you have arrived", preferredStyle: UIAlertControllerStyle.alert)
         let stopAction = UIAlertAction(title: "Stop", style: UIAlertActionStyle.default, handler: { action in

@@ -9,6 +9,10 @@
 import UIKit
 import MapKit
 
+// --------------------------------------------------
+// This view controller is for task setting
+// Includes destination searching, time choosing and server communication
+// --------------------------------------------------
 class SetTaskViewController: UIViewController,UISearchBarDelegate,MKMapViewDelegate, CLLocationManagerDelegate,UIPickerViewDelegate, UIPickerViewDataSource{
     var userid = String()
 
@@ -26,6 +30,13 @@ class SetTaskViewController: UIViewController,UISearchBarDelegate,MKMapViewDeleg
     
     let locationManager = CLLocationManager()
     
+    //
+    // Click search bar
+    // Search the destination
+    // Set a pin on the destination
+    // Draw a route between current location and destination
+    // Show recommanding time in the callout of pin
+    //
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         print("search bar clicked", mapSearchBar.text!)
         
@@ -130,26 +141,33 @@ class SetTaskViewController: UIViewController,UISearchBarDelegate,MKMapViewDeleg
     @IBAction func clickBackButton(_ sender: UIButton) {
         self.dismiss(animated: true, completion: nil)
     }
+    
     // **************************************
     // ********* Set Time Part **************
     // **************************************
     @IBOutlet weak var minutePicker: UIPickerView!
+    // The minutes can be choosed
+    // Minimun is 5 minutes
+    // Maximum is 60 minutes
     let minutes = ["5","10","15","20","25","30","35","40","45","50","55","60"]
     
     var minuteChoice = 0
     
+    // Get the order of choosen time
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        
+
         return minutes[row]
         
     }
     
+    // Get the number of settled time
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
    
         return minutes.count
        
     }
     
+    // Calculate the actual time that the Pickerview represent
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         minuteChoice = (row+1)*5
     }
@@ -178,7 +196,7 @@ class SetTaskViewController: UIViewController,UISearchBarDelegate,MKMapViewDeleg
         let sourceLongitude = String(self.sourceLocation.longitude)
 
 
-        // Generate request
+        // Generate set task request
         var strURL = "http://13.73.118.226/API/operations.php?func=newTask"
         let parameters = "&para1=\(startUTC)&para2=\(endUTC)&para3=\(sourceLatitude)&para4=\(sourceLongitude)&para5=\(String(self.destLatitude))&para6=\(String(self.destLongitude))&para7=\(sourceLatitude)&para8=\(sourceLongitude)&para9=\(startUTC)&para10=\(self.userid)"
         strURL = strURL + parameters
@@ -234,6 +252,7 @@ class SetTaskViewController: UIViewController,UISearchBarDelegate,MKMapViewDeleg
         mapkitView.showsPointsOfInterest = true
         mapkitView.showsUserLocation = true
         
+        // Ask user's permission of loaction usage
         locationManager.requestAlwaysAuthorization()
         locationManager.requestWhenInUseAuthorization()
         
@@ -242,8 +261,8 @@ class SetTaskViewController: UIViewController,UISearchBarDelegate,MKMapViewDeleg
             locationManager.desiredAccuracy = kCLLocationAccuracyBest
             locationManager.startUpdatingLocation()
             
+            // Set map view region
             let span:MKCoordinateSpan = MKCoordinateSpanMake(0.01, 0.01)
-            
             let region:MKCoordinateRegion = MKCoordinateRegionMake((self.locationManager.location?.coordinate)!, span)
             
             mapkitView.setRegion(region, animated: true)
@@ -265,6 +284,7 @@ class SetTaskViewController: UIViewController,UISearchBarDelegate,MKMapViewDeleg
     }
     
     
+    // For parameters passing
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "setTask2Timer"{
             let viewController = segue.destination as! TimerViewController
