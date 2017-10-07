@@ -10,7 +10,6 @@ error_reporting(-1);
 ini_set('display_errors', 'On');
 set_error_handler("var_dump");
 require_once('info.php');
-sleep(60);
 taskManager();
 
 // This is the controler of the server side function.
@@ -20,7 +19,8 @@ function taskManager(){
     $condition = "I love PHP";
     while ($condition){
       operateTask();
-      sleep(60);
+      sleep(20);
+
     }
 }
 // Set up an short connection to the database.
@@ -29,7 +29,6 @@ function connectDB()
     $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
     return $dbc;
 }
-
 // The function check all the tasks in the database and detect if any task if
 // experid but did cancel by user.
 // The system would automatically send notification to the user's contacts.
@@ -53,19 +52,19 @@ while ($row = $taskList->fetch_assoc()) {
     $terminalPointY = $row["TerminalPointY"];
     $lastPointX = $row["LastPointX"];
     $lastPointY = $row["LastPointY"];
-    $lastUpdataTime = $row["LastUpdataTime"];
+    $lastUpdateTime = $row["LastUpdateTime"];
     $cancelTaskSQL = "UPDATE Task SET Task.Canceled = 'Y' WHERE Task.TaskID=".$taskID.";";
     $conn->query($cancelTaskSQL);
-    sendEmail($c1Email,$c1Name,$c2Email,$c2Name,$name,$startTime,$endTime,$startPointX,$startPointY,$terminalPointX,$terminalPointY, $lastPointX, $lastPointY,$lastUpdataTime);
+    sendEmail($c1Email,$c1Name,$c2Email,$c2Name,$name,$startTime,$endTime,$startPointX,$startPointY,$terminalPointX,$terminalPointY, $lastPointX, $lastPointY,$lastUpdateTime);
 }
 $conn->close();
 
 }
 
 // This function is used to send email.
-function sendEmail($c1Email,$c1Name,$c2Email,$c2Name,$name,$startTime,$endTime,$startPointX,$startPointY,$terminalPointX,$terminalPointY, $lastPointX, $lastPointY,$lastUpdataTime){
-  $url = "Location:http://115.146.92.149/include/listener.php?c1email=".$c1Email."&c1name=".$c1Name."&c2email=".$c2Email."&c2name=".$c2Name."&name=".$name."&startTime=".$startTime."&endTime=".$endTime."&startPointX=".$startPointX."&startPointY=".$startPointY."&terminalPointX=".$terminalPointX."&terminalPointY=".$terminalPointY."&lastPointX=".$lastPointX."&lastPointY=".$lastPointY."&lastUpdataTime=".$lastUpdataTime;
-echo $url."<br/>";
+function sendEmail($c1Email,$c1Name,$c2Email,$c2Name,$name,$startTime,$endTime,$startPointX,$startPointY,$terminalPointX,$terminalPointY, $lastPointX, $lastPointY,$lastUpdateTime){
+  $url = "Location:http://115.146.92.149/include/listener.php?c1email=".$c1Email."&c1name=".$c1Name."&c2email=".$c2Email."&c2name=".$c2Name."&name=".$name."&startTime=".$startTime."&endTime=".$endTime."&startPointX=".$startPointX."&startPointY=".$startPointY."&terminalPointX=".$terminalPointX."&terminalPointY=".$terminalPointY."&lastPointX=".$lastPointX."&lastPointY=".$lastPointY."&lastUpdateTime=".$lastUpdateTime;
+echo $url;
   header($url);
 }
 ?>

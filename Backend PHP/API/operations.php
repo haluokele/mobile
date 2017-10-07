@@ -34,10 +34,10 @@ switch ($func) {
         $TerminalPointY = filter_var($_GET["para6"]);
         $LastPointX = filter_var($_GET["para7"]);
         $LastPointY = filter_var($_GET["para8"]);
-        $LastUpdataTime = filter_var($_GET["para9"]);
+        $LastUpdateTime = filter_var($_GET["para9"]);
         $UserID = filter_var($_GET["para10"]);
         newTask($StartTime, $EndTime, $StartPointX, $StartPointY, $TerminalPointX,
-        $TerminalPointY, $LastPointX, $LastPointY, $LastUpdataTime, $UserID);
+        $TerminalPointY, $LastPointX, $LastPointY, $LastUpdateTime, $UserID);
         break;
     case "cancelTask":
         $UserID = filter_var($_GET["para1"]);
@@ -59,8 +59,8 @@ switch ($func) {
         $UserID = filter_var($_GET["para1"]);
         $LastPointX = filter_var($_GET["para2"]);
         $LastPointY = filter_var($_GET["para3"]);
-        $LastUpdataTime = filter_var($_GET["para4"]);
-        updateLocation($UserID,$LastPointX,$LastPointY,$LastUpdataTime);
+        $LastUpdateTime = filter_var($_GET["para4"]);
+        updateLocation($UserID,$LastPointX,$LastPointY,$LastUpdateTime);
         break;
 }
 
@@ -110,14 +110,15 @@ function login($userName,$pw){
 }
 
 //This is the function used to create new task.
-function newTask($StartTime, $EndTime, $StartPointX, $StartPointY, $TerminalPointX, $TerminalPointY, $LastPointX, $LastPointY, $LastUpdataTime, $UserID){
+function newTask($StartTime, $EndTime, $StartPointX, $StartPointY, $TerminalPointX, $TerminalPointY, $LastPointX, $LastPointY, $LastUpdateTime, $UserID){
   $conn = connectDB();
-  $newTaskSQL = "INSERT INTO Task(StartTime, EndTime,StartPointX, StartPointY, TerminalPointX, TerminalPointY, LastPointX, LastPointY, LastUpdataTime, UserID) VALUES('".$StartTime."','".$EndTime."','".$StartPointX."','".$StartPointY."','".$TerminalPointX."','".$TerminalPointY."','".$LastPointX."','".$LastPointY."','".$LastUpdataTime."','".$UserID."');";
+  $newTaskSQL = "INSERT INTO Task(StartTime, EndTime,StartPointX, StartPointY, TerminalPointX, TerminalPointY, LastPointX, LastPointY, LastUpdateTime, UserID) VALUES('".$StartTime."','".$EndTime."','".$StartPointX."','".$StartPointY."','".$TerminalPointX."','".$TerminalPointY."','".$LastPointX."','".$LastPointY."','".$LastUpdateTime."','".$UserID."');";
   $conn->query($newTaskSQL);
   $conn->close();
+  echo $newTaskSQL;
 }
 
-//This is the function used to cancel the finished task.
+//This is the function used to update the contacts information.
 function cancelTask($UserID){
   $conn = connectDB();
   $cancelSQL = "UPDATE Task SET Canceled = 'Y' WHERE UserID = '".$UserID."'";
@@ -150,9 +151,9 @@ function getContacts($UserID){
 }
 
 //This function is used to update user's location until the task is finished or canceled.
-function updateLocation($UserID, $LastPointX, $LastPointY,$LastUpdataTime){
+function  updateLocation($UserID, $LastPointX, $LastPointY,$LastUpdateTime){
   $conn = connectDB();
-  $updateLocationSQL = "UPDATE Task SET Task.LastPointX =".$LastPointX.", Task.LastPointY =".$LastPointY.", Task.LastUpdataTime = ".$LastUpdataTime." WHERE Task.UserID = ".$UserID." AND Task.Canceled = 'N';";
+  $updateLocationSQL = "UPDATE Task SET Task.LastPointX =".$LastPointX.", Task.LastPointY =".$LastPointY.", Task.LastUpdateTime = ".$LastUpdateTime." WHERE Task.UserID = ".$UserID." AND Task.Canceled = 'N';";
   $conn->query($updateLocationSQL);
   $conn->close();
 }
