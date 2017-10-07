@@ -62,6 +62,7 @@ class RegisterViewController: UIViewController {
         self.present(alertControl, animated: true, completion: nil)
     }
     
+    // regist a account
     @IBAction func RegisterAcc(_ sender: Any) {
         let username = usernameTextField.text!
         let name = nameTextField.text!
@@ -70,6 +71,7 @@ class RegisterViewController: UIViewController {
         let contactName = contactNameTextField.text!
         let contactEmail = contactEmailTextField.text!
         
+        // check the user info is correct
         if(username.characters.count==0 || name.characters.count==0 || password.characters.count==0 || repassword.characters.count==0 || contactName.characters.count==0 || contactEmail.characters.count==0) {
             showAllInfoAlert()
             return

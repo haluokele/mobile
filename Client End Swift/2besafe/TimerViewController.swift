@@ -313,6 +313,24 @@ class TimerViewController: UIViewController,CLLocationManagerDelegate{
         }
     }
     
-    
+    // shake your phone for emergency call
+    override func motionBegan(_ motion: UIEventSubtype, with event: UIEvent?) {
+        if motion == UIEventSubtype.motionShake
+        {
+            let urlString = "tel://0410916158"
+            
+            if let url = URL(string: urlString) {
+                if #available(iOS 10, *) {
+                    UIApplication.shared.open(url, options: [:],
+                                              completionHandler: {
+                                                (success) in
+                    })
+                    
+                } else {
+                    UIApplication.shared.openURL(url)
+                }
+            }
+        }
+    }
 
 }

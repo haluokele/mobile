@@ -105,6 +105,7 @@ class ContactViewController: UIViewController {
         self.present(alertControl, animated: true, completion: nil)
     }
     
+    // update the contact info
     @IBAction func SubmitContact(_ sender: Any) {
         let contactName1 = contactName1TextField.text!
         let contactEmail1 = contactEmail1TextField.text!
