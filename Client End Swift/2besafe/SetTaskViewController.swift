@@ -199,6 +199,7 @@ class SetTaskViewController: UIViewController,UISearchBarDelegate,MKMapViewDeleg
         // Generate set task request
         var strURL = "http://13.73.118.226/API/operations.php?func=newTask"
         let parameters = "&para1=\(startUTC)&para2=\(endUTC)&para3=\(sourceLatitude)&para4=\(sourceLongitude)&para5=\(String(self.destLatitude))&para6=\(String(self.destLongitude))&para7=\(sourceLatitude)&para8=\(sourceLongitude)&para9=\(startUTC)&para10=\(self.userid)"
+        print (parameters)
         strURL = strURL + parameters
         print(strURL)
 

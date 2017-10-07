@@ -37,8 +37,8 @@ class ViewController: UIViewController {
     }
     
     func call000Alert(){
-        let alertControl = UIAlertController(title: "Didn't Cancel Task Alert", message: "You didn't cancel your last task. We have send notification to your friends.", preferredStyle: UIAlertControllerStyle.alert)
-        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.default, handler: nil)
+        let alertControl = UIAlertController(title: "Didn't Cancel Task Alert", message: "You didn't cancel your last task. We have sent notification to your friends.", preferredStyle: UIAlertControllerStyle.alert)
+        let okAction = UIAlertAction(title: "I got it", style: UIAlertActionStyle.default, handler: nil)
         alertControl.addAction(okAction)
         self.present(alertControl, animated: true, completion: nil)
     }

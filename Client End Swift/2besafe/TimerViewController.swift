@@ -52,8 +52,8 @@ class TimerViewController: UIViewController,CLLocationManagerDelegate{
         
         NSLog("trigger time:"+String(secondTime))
         
-        // Timer for call 000
-        timerDial = Timer.scheduledTimer(timeInterval: TimeInterval(secondTime), target: self, selector: #selector(dial), userInfo: nil, repeats: false)
+//        // Timer for call 000
+//        timerDial = Timer.scheduledTimer(timeInterval: TimeInterval(secondTime), target: self, selector: #selector(dial), userInfo: nil, repeats: false)
         
         
         // For the timer label initial display
@@ -105,40 +105,13 @@ class TimerViewController: UIViewController,CLLocationManagerDelegate{
     }
     
 
-    // Call 000
-    @objc func dial(){
-        NSLog("call 000")
-        
-        let urlString = "tel://0410916158"
-        
-        if let url = URL(string: urlString) {
-            if #available(iOS 10, *) {
-                UIApplication.shared.open(url, options: [:],
-                                          completionHandler: {
-                                            (success) in
-                })
-            } else {
-                UIApplication.shared.openURL(url)
-            }
-        }
-        
-        timerDial.invalidate()
-        
-        // For the main page alert
-        // When equals true,
-        // main page notifies the user that him/her didn't cancel the last task
-        self.call000Flag = true
-        
-        // Jump back to main page
-        self.performSegue(withIdentifier: "timer2Main", sender: self)
-    }
     
     // Display timer label
     // Pop up a stop task alert before 30 seconds of arrival
     // Update current coordinate to server time every 30 seconds
     @objc func countdownDisplay() {
         if secondTime > 0{
-            NSLog(String(secondTime/60)+","+String(secondTime%60))
+//            NSLog(String(secondTime/60)+","+String(secondTime%60))
             
             if (secondTime/60/10>0 && secondTime%60/10>0){
                 minuteDisplayLabel.text = String(secondTime/60)
@@ -169,6 +142,15 @@ class TimerViewController: UIViewController,CLLocationManagerDelegate{
             self.minuteDisplayLabel.text = "00"
             
             self.circleGif.stopAnimating()
+            
+            
+            // For the main page alert
+            // When equals true,
+            // main page notifies the user that him/her didn't cancel the last task
+            self.call000Flag = true
+            
+            // Jump back to main page
+            self.performSegue(withIdentifier: "timer2Main", sender: self)
         }
         
         // Pop up a stop task alert before 30 seconds of arrival
@@ -180,7 +162,7 @@ class TimerViewController: UIViewController,CLLocationManagerDelegate{
         if secondTime%30 == 0{
             let currentUTC = String(Int(NSDate().timeIntervalSince1970))
             var strURL = "http://13.73.118.226/API/operations.php?func=updateLocation"
-            let parameters = "&para1=\(String((self.locationManager.location?.coordinate.latitude)!))&para2=\(String((self.locationManager.location?.coordinate.longitude)!))&para3=\(currentUTC)&para4=\(self.userid)"
+            let parameters = "&para1=\(self.userid)&para2=\(String((self.locationManager.location?.coordinate.latitude)!))&para3=\(String((self.locationManager.location?.coordinate.longitude)!))&para4=\(currentUTC)"
             strURL = strURL + parameters
             print(strURL)
             
@@ -200,7 +182,7 @@ class TimerViewController: UIViewController,CLLocationManagerDelegate{
                 }
                 
                 let responseString = String(data: data, encoding: .utf8)!
-                print("responseString = "+responseString)
+                print("TimerResponseString = "+responseString)
                 
             }
             task.resume()
