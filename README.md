@@ -1,6 +1,6 @@
 # 2besafe
 
-This is an Assignment for COMP90018 Mobile Computing Systems Programming.
+This is an assignment for COMP90018 Mobile Computing Systems Programming in the University of Melbourne. 
 
 2besafe aims at ensuring the user seek for help immediately once him/her encounters dangerous situation.
 
@@ -9,6 +9,7 @@ destination and the expected arrival time. 2besafe will send notification emails
 cancel the task within the time. The user can also shake the phone to call 000 as long as he/she meets 
 danger.
 
+2besafe consists of server and client. Back end and client is programmed in PHP and swift individually. Server deploys on Azure. MySQL is used as the database.
 
 # Register Page
 
