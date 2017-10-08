@@ -43,7 +43,9 @@ There's a timer on the page to inform the user the remaining time. The user is a
 
 If the user doesn't cancel a task, an alert will show on the home page to inform the user.
 
-![alt text](https://github.com/haluokele/mobile/blob/master/Screenshot/IMG_2558.PNG)
+![alt text](https://github.com/haluokele/mobile/blob/master/Screenshot/IMG_2558.PNG) 
+![alt text](https://github.com/haluokele/mobile/blob/master/Screenshot/IMG_2560.PNG)
+![alt text](https://github.com/haluokele/mobile/blob/master/Screenshot/IMG_2561.PNG)
 
 # My Contact Page
 
