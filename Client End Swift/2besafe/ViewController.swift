@@ -54,7 +54,8 @@ class ViewController: UIViewController {
     }
     
     @IBAction func CallPolice(_ sender: Any) {
-        let urlString = "tel://0410916158"
+//        let urlString = "tel://0410916158"
+        let urlString = "tel://000"
         
         if let url = URL(string: urlString) {
             if #available(iOS 10, *) {
