@@ -12,13 +12,20 @@ When the user thinks he/she is unsafe from one place to another, he/she may crea
 
 The user needs to register first
 
+![alt text](https://github.com/haluokele/mobile/blob/master/Screenshot/IMG_2554.PNG)
+
+
 # Login Page
 
 The user needs to login in the beginning.
 
+![alt text](https://github.com/haluokele/mobile/blob/master/Screenshot/IMG_2555.PNG)
+
 # Home Page
 
 There are 4 functionalities in the home page, namely New Task, My Contacts, Call 000 and Criminal Statistics.
+
+![alt text](https://github.com/haluokele/mobile/blob/master/Screenshot/IMG_2556.PNG)
 
 # New Task Page
 
@@ -28,15 +35,21 @@ The user then needs to select an arrival time below. 2besafe aims at short dista
 
 Once the user starts the task, the Timer Page will display.
 
+![alt text](https://github.com/haluokele/mobile/blob/master/Screenshot/IMG_2557.PNG)
+
 # Timer Page
 
 There's a timer on the page to inform the user the remaining time. The user is able to shake the phone to call 000 as long as he/she meets danger. An alert will pop up in order to inform the user to stop the task before 2 minutes of the expected end time.
 
 If the user doesn't cancel a task, an alert will show on the home page to inform the user.
 
+![alt text](https://github.com/haluokele/mobile/blob/master/Screenshot/IMG_2558.PNG)
+
 # My Contact Page
 
 The user is able to add and modify his/her emergency contact on this page. 2besafe allows 2 emergency contacts at most.
+
+![alt text](https://github.com/haluokele/mobile/blob/master/Screenshot/IMG_2559.PNG)
 
 # Call 000
 
