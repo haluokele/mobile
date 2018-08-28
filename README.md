@@ -1,6 +1,6 @@
 # 2besafe
 
-This is an assignment for COMP90018 Mobile Computing Systems Programming in the University of Melbourne.
+This is an assignment for COMP90018 Mobile Computing Systems Programming at the University of Melbourne.
 
 2besafe aims at ensuring the user seek help immediately once him/her encounters the dangerous situation.
 
